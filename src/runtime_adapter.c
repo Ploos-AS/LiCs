@@ -38,7 +38,7 @@ int lics_runtime_bind_events(event_registry *registry) {
 }
 
 static irc_output_sink lics_sink;
-void lics_runtime_set_output_sink(const irc_output_sink *sink){if(sink) lics_sink=*sink; else memset(&lics_sink,0,sizeof(lics_sink));}
+void lics_runtime_set_output_sink(const irc_output_sink *sink){if(sink) lics_sink=*sink; else memset(&lics_sink,0,sizeof(lics_sink)); scheme_backend_set_output_sink(sink);}
 int lics_runtime_say(const char *target,const char *text){return irc_send_privmsg(&lics_sink,target,text);}
 int lics_runtime_notice(const char *target,const char *text){return irc_send_notice(&lics_sink,target,text);}
 int lics_runtime_join(const char *channel){return irc_send_join(&lics_sink,channel);}
