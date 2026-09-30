@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Core and fallback tests
+        run: make test
+
+  tinyscheme-vm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch pinned TinyScheme 1.42
+        run: |
+          mkdir -p vendor
+          curl -L --fail --retry 3 -o /tmp/tinyscheme-1.42.tar.gz "https://sourceforge.net/projects/tinyscheme/files/tinyscheme/tinyscheme-1.42/tinyscheme-1.42.tar.gz/download"
+          tar -xzf /tmp/tinyscheme-1.42.tar.gz -C vendor
+          test -f vendor/tinyscheme-1.42/scheme.c
+      - name: Real TinyScheme VM tests
+        run: make test-tinyscheme
