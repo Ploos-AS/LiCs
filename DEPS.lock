@@ -1,0 +1,5 @@
+# LiCs dependency lock
+
+TINYSCHEME_VERSION=1.42
+TINYSCHEME_ARCHIVE=tinyscheme-1.42.tar.gz
+TINYSCHEME_SOURCE=https://sourceforge.net/projects/tinyscheme/files/tinyscheme/tinyscheme-1.42/tinyscheme-1.42.tar.gz/download
