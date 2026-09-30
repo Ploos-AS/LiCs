@@ -1,6 +1,7 @@
 #include "../src/irc_core.h"
 #include "../src/runtime_adapter.h"
 #include "../src/runtime_dispatch.h"
+#include "../src/events.h"
 #include <stdio.h>
 #include <string.h>
 int main(void){
@@ -17,6 +18,7 @@ int main(void){
   memset(&e,0,sizeof(e)); reply[0]='\0';
   if(irc_parse_line(cases[i].line,&e)!=1)return 2;
   ok=lics_dispatch_event_runtime(&e,reply,sizeof(reply));
+  if(i==0 && !bot_dispatch_event(&e,&registry)) return 5;
   if(i==0){if(!ok||strcmp(reply,cases[i].want)!=0)return 3;}
   else if(ok)return 4;
  }
