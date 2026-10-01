@@ -1,3 +1,4 @@
 #include "../src/bot_caps.h"
 #include <assert.h>
-int main(void){bot_caps*c=bot_caps_create();assert(c);assert(!bot_caps_has(c,"irc.say"));assert(bot_caps_grant(c,"irc.say"));assert(bot_caps_has(c,"irc.say"));assert(bot_caps_grant(c,"state.read"));assert(bot_caps_revoke(c,"irc.say"));assert(!bot_caps_has(c,"irc.say"));assert(bot_caps_has(c,"state.read"));bot_caps_clear(c);assert(!bot_caps_has(c,"state.read"));bot_caps_destroy(c);return 0;}
+int main(void){bot_caps*c=bot_caps_create();assert(c);assert(!bot_caps_has(c,"irc.say"));assert(bot_caps_grant(c,"irc.say"));assert(bot_caps_has(c,"irc.say")); assert(bot_caps_require(c,"irc.say"));assert(bot_caps_grant(c,"state.read"));assert(bot_caps_revoke(c,"irc.say"));assert(!bot_caps_has(c,"irc.say"));assert(bot_caps_has(c,"state.read"));bot_caps_clear(c);assert(!bot_caps_has(c,"state.read"));bot_caps_destroy(c);return 0;}
+/* require() is the centralized policy gate. */
