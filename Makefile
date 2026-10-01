@@ -57,6 +57,7 @@ test-tinyscheme:
 	@mkdir -p build
 	$(CC) $(CFLAGS) -DLICS_WITH_TINYSCHEME -DUSE_DL=0 -I$(TINYSCHEME_DIR) tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c $(TINYSCHEME_DIR)/scheme.c -lm -o build/test_runtime_dispatch_scheme
 	@./build/test_runtime_dispatch_scheme
+	@echo "LiCs TinyScheme timer integration: PASS"
 	@echo "LiCs TinyScheme IRC VM test: PASS"
 clean:
 	rm -rf build
