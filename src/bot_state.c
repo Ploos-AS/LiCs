@@ -1,7 +1,8 @@
 #include "bot_state.h"
 #include "bot_state_backend.h"
 #include <stdlib.h>
-#include <string.h>\n#include <stdio.h>
+#include <string.h>
+#include <stdio.h>
 typedef struct bot_state_entry{char *scope;char *key;char *value;struct bot_state_entry *next;} bot_state_entry;
 struct bot_state{bot_state_entry *head;size_t count;const bot_state_backend *backend;void *backend_ctx;};
 static char *dupstr(const char *s){size_t n;if(!s)return NULL;n=strlen(s)+1;char *p=(char*)malloc(n);if(p)memcpy(p,s,n);return p;}
