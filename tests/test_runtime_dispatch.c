@@ -17,6 +17,9 @@ int main(void){
  if(irc_parse_line(":alice!u@h PRIVMSG #ploos :!hello\r\n",&e)!=1) return 9;
  if(!lics_dispatch_runtime(&e,reply,sizeof(reply))) return 10;
  if(strcmp(reply,"Hello from LiCs")!=0) return 11;
+ if(scheme_backend_eval("(define (argcmd) (irc-reply (string-append (irc-command) \":\" (irc-args))))")!=0) return 26;
+ if(scheme_backend_eval("(command-on \"!args\" \"argcmd\")")!=0) return 27;
+ memset(reply,0,sizeof(reply)); memset(&e,0,sizeof(e)); if(irc_parse_line(":alice!u@h PRIVMSG #ploos :!args Per Ola\\r\\n",&e)!=1)return 28; if(!lics_dispatch_runtime(&e,reply,sizeof(reply)))return 29; if(strcmp(reply,"args:Per Ola")!=0)return 30;
  if(scheme_backend_eval("(define (cmdhello nick) (irc-reply \"Registered COMMAND\"))")!=0) return 16;
  if(scheme_backend_eval("(command-on \"!hello2\" \"cmdhello\")")!=0) return 17;
  memset(reply,0,sizeof(reply)); memset(&e,0,sizeof(e)); if(irc_parse_line(":alice!u@h PRIVMSG #ploos :!hello2\\r\\n",&e)!=1) return 18; if(!lics_dispatch_runtime(&e,reply,sizeof(reply))) return 19; if(strcmp(reply,"Registered COMMAND")!=0) return 20;
