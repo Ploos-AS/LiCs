@@ -8,6 +8,7 @@ TEST_RUNTIME := build/test_runtime
 TEST_RUNTIME_DISPATCH := build/test_runtime_dispatch
 TEST_TIMERS := build/test_timers
 TEST_TIMER_HANDLERS := build/test_timer_handlers
+TEST_RUNTIME_TIMERS := build/test_runtime_timers
 SRC := src/main.c src/irc_core.c src/dispatcher.c src/events.c src/runtime_adapter.c src/runtime_dispatch.c src/timers.c src/timer_handlers.c src/scheme_backend.c
 TINYSCHEME_DIR ?= vendor/tinyscheme-1.42
 .PHONY: all test test-tinyscheme clean
@@ -27,7 +28,7 @@ $(TEST_EVENTS): tests/test_events.c src/irc_core.c src/events.c src/irc_core.h s
 $(TEST_RUNTIME): tests/test_runtime.c src/runtime_adapter.c src/scheme_backend.c src/runtime_adapter.h src/scheme_backend.h src/irc_core.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_runtime.c src/runtime_adapter.c src/scheme_backend.c -o $(TEST_RUNTIME)
-$(TEST_RUNTIME_DISPATCH) $(TEST_TIMERS) $(TEST_TIMER_HANDLERS): tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c
+$(TEST_RUNTIME_DISPATCH) $(TEST_TIMERS) $(TEST_TIMER_HANDLERS) $(TEST_RUNTIME_TIMERS): tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c -o $(TEST_RUNTIME_DISPATCH)
 $(TEST_TIMERS): tests/test_timers.c src/timers.c src/timers.h
@@ -36,6 +37,10 @@ $(TEST_TIMERS): tests/test_timers.c src/timers.c src/timers.h
 $(TEST_TIMER_HANDLERS): tests/test_timer_handlers.c src/timer_handlers.c src/timer_handlers.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_timer_handlers.c src/timer_handlers.c -o $(TEST_TIMER_HANDLERS)
+$(TEST_RUNTIME_TIMERS): tests/test_runtime_timers.c src/runtime_adapter.c src/timers.c src/timer_handlers.c
+	@mkdir -p build
+	$(CC) $(CFLAGS) tests/test_runtime_timers.c src/runtime_adapter.c src/timers.c src/timer_handlers.c -o $(TEST_RUNTIME_TIMERS)
+
 test: $(BIN) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TEST_RUNTIME_DISPATCH)
 	@./$(BIN) | grep -q "LiCs M0"
 	@./$(TEST_IRC)
@@ -45,6 +50,7 @@ test: $(BIN) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TES
 	@./$(TEST_RUNTIME_DISPATCH)
 	@./$(TEST_TIMERS)
 	@./$(TEST_TIMER_HANDLERS)
+	@./$(TEST_RUNTIME_TIMERS)
 	@echo "LiCs M1 tests: PASS"
 test-tinyscheme:
 	@test -f $(TINYSCHEME_DIR)/scheme.c || (echo "TinyScheme source missing at $(TINYSCHEME_DIR)"; exit 1)
