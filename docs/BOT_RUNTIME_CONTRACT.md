@@ -103,3 +103,8 @@ A bot runtime owns exactly one state store and one capability store. Capability 
 | state.delete | delete bot state |
 
 All capabilities are default-deny. There is no wildcard capability in M2.3. Host/PBMP policy grants capabilities explicitly.
+
+
+## M2.4 State backend
+
+The state API is backend-neutral. The default implementation remains in-memory. A backend may be attached through `bot_state_backend_attach()`; persistence backends are optional and are not part of the M2.4 core contract. The capability layer remains above the state API and is unchanged by backend selection.
