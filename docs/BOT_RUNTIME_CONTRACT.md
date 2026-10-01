@@ -78,3 +78,8 @@ Language bindings expose a minimal, language-native output surface:
 | REPLY | reply to the current command/event target |
 
 The runtime owns IRC formatting, escaping, connection state, and transmission. Scripts provide semantic arguments only. A failed transmission is reported by the binding; scripts must not construct raw IRC protocol lines.
+
+
+## M2.1 State
+
+The runtime provides a language-neutral in-memory state store keyed by `scope + key`. State is bot-owned runtime state; persistence is deliberately outside M2.1. Missing keys return no value, setting an existing key replaces its value, and scopes are opaque strings interpreted by the host/bot policy.
