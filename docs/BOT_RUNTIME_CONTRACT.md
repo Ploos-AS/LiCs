@@ -88,3 +88,18 @@ The runtime provides a language-neutral in-memory state store keyed by `scope + 
 ## M2.3 Runtime policy
 
 A bot runtime owns exactly one state store and one capability store. Capability policy is default-deny: a newly created runtime has no capabilities. Host/PBMP policy explicitly grants capabilities. Language bindings must not maintain independent policy stores.
+
+
+## M2.3 Capability set
+
+| Capability | Operation |
+|---|---|
+| irc.say | send PRIVMSG |
+| irc.notice | send NOTICE |
+| irc.join | JOIN a channel |
+| irc.part | PART a channel |
+| state.read | read bot state |
+| state.write | create or update bot state |
+| state.delete | delete bot state |
+
+All capabilities are default-deny. There is no wildcard capability in M2.3. Host/PBMP policy grants capabilities explicitly.
