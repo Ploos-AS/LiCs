@@ -11,6 +11,7 @@ TEST_BOT_RUNTIME := build/test_bot_runtime
 TEST_BOT_STATE_BACKEND := build/test_bot_state_backend
 TEST_BOT_STATE_CODEC := build/test_bot_state_file_codec
 TEST_BOT_STATE_CODEC_INVALID := build/test_bot_state_file_codec_invalid
+TEST_BOT_RUNTIME_PERSISTENCE := build/test_bot_runtime_persistence
 TEST_RUNTIME_DISPATCH := build/test_runtime_dispatch
 TEST_TIMERS := build/test_timers
 TEST_TIMER_HANDLERS := build/test_timer_handlers
@@ -56,7 +57,7 @@ $(TEST_RUNTIME_TIMERS): tests/test_runtime_timers.c src/runtime_adapter.c src/ti
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_runtime_timers.c src/runtime_adapter.c src/timers.c src/timer_handlers.c -o $(TEST_RUNTIME_TIMERS)
 
-test: $(BIN) $(TEST_BOT_STATE_BACKEND) $(TEST_BOT_STATE_CODEC) $(TEST_BOT_STATE_CODEC_INVALID) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TEST_RUNTIME_DISPATCH) $(TEST_BOT_STATE) $(TEST_BOT_CAPS) $(TEST_BOT_RUNTIME)
+test: $(BIN) $(TEST_BOT_RUNTIME_PERSISTENCE) $(TEST_BOT_STATE_BACKEND) $(TEST_BOT_STATE_CODEC) $(TEST_BOT_STATE_CODEC_INVALID) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TEST_RUNTIME_DISPATCH) $(TEST_BOT_STATE) $(TEST_BOT_CAPS) $(TEST_BOT_RUNTIME)
 	@./$(BIN) | grep -q "LiCs M0"
 	@./$(TEST_IRC)
 	@./$(TEST_DISPATCHER)
@@ -69,6 +70,7 @@ test: $(BIN) $(TEST_BOT_STATE_BACKEND) $(TEST_BOT_STATE_CODEC) $(TEST_BOT_STATE_
 	@./$(TEST_BOT_STATE_BACKEND)
 	@./$(TEST_BOT_STATE_CODEC)
 	@./$(TEST_BOT_STATE_CODEC_INVALID)
+	@./$(TEST_BOT_RUNTIME_PERSISTENCE)
 	@./$(TEST_TIMERS)
 	@./$(TEST_TIMER_HANDLERS)
 	@./$(TEST_RUNTIME_TIMERS)
@@ -93,3 +95,7 @@ $(TEST_BOT_STATE_CODEC): tests/test_bot_state_file_codec.c src/bot_state_file_co
 $(TEST_BOT_STATE_CODEC_INVALID): tests/test_bot_state_file_codec_invalid.c src/bot_state_file_codec.c src/bot_state.c src/bot_state.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_bot_state_file_codec_invalid.c src/bot_state_file_codec.c src/bot_state.c -o $(TEST_BOT_STATE_CODEC_INVALID)
+
+$(TEST_BOT_RUNTIME_PERSISTENCE): tests/test_bot_runtime_persistence.c src/bot_runtime.c src/bot_runtime.h src/bot_state.c src/bot_state.h src/bot_caps.c src/bot_caps.h src/bot_state_backend.c src/bot_state_backend.h src/bot_state_file.c src/bot_state_file.h src/bot_state_file_codec.c src/bot_state_file_codec.h src/bot_state_file_save.c src/bot_state_file_save.h
+	@mkdir -p build
+	$(CC) $(CFLAGS) tests/test_bot_runtime_persistence.c src/bot_runtime.c src/bot_state.c src/bot_caps.c src/bot_state_backend.c src/bot_state_file.c src/bot_state_file_codec.c src/bot_state_file_save.c -o $(TEST_BOT_RUNTIME_PERSISTENCE)
