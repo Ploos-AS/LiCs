@@ -20,6 +20,9 @@ int main(void){
  if(scheme_backend_eval("(define (cmdhello nick) (irc-reply \"Registered COMMAND\"))")!=0) return 16;
  if(scheme_backend_eval("(command-on \"!hello2\" \"cmdhello\")")!=0) return 17;
  memset(reply,0,sizeof(reply)); memset(&e,0,sizeof(e)); if(irc_parse_line(":alice!u@h PRIVMSG #ploos :!hello2\\r\\n",&e)!=1) return 18; if(!lics_dispatch_runtime(&e,reply,sizeof(reply))) return 19; if(strcmp(reply,"Registered COMMAND")!=0) return 20;
+ if(scheme_backend_eval("(define (ctxcmd) (irc-reply (irc-text)))")!=0) return 21;
+ if(scheme_backend_eval("(command-on \"!ctx\" \"ctxcmd\")")!=0) return 22;
+ memset(reply,0,sizeof(reply)); if(irc_parse_line(":alice!u@h PRIVMSG #ploos :!ctx Per Ola\\r\\n",&e)!=1)return 23; if(!lics_dispatch_runtime(&e,reply,sizeof(reply)))return 24; if(strcmp(reply,"!ctx Per Ola")!=0)return 25;
  if(scheme_backend_eval("(event-on \"join\" \"welcome\")")!=0) return 12;
  if(scheme_backend_eval("(define (welcome) (irc-reply \"Registered JOIN\"))")!=0) return 13;
  memset(&e,0,sizeof(e)); e.type=IRC_EVENT_JOIN; snprintf(e.nick,sizeof(e.nick),"alice"); snprintf(e.target,sizeof(e.target),"#ploos");
