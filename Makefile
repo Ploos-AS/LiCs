@@ -5,17 +5,29 @@ TEST_IRC := build/test_irc
 TEST_DISPATCHER := build/test_dispatcher
 TEST_EVENTS := build/test_events
 TEST_RUNTIME := build/test_runtime
+TEST_BOT_STATE := build/test_bot_state
+TEST_BOT_CAPS := build/test_bot_caps
+TEST_BOT_RUNTIME := build/test_bot_runtime
 TEST_RUNTIME_DISPATCH := build/test_runtime_dispatch
 TEST_TIMERS := build/test_timers
 TEST_TIMER_HANDLERS := build/test_timer_handlers
 TEST_RUNTIME_TIMERS := build/test_runtime_timers
-SRC := src/main.c src/irc_core.c src/dispatcher.c src/events.c src/runtime_adapter.c src/runtime_dispatch.c src/timers.c src/timer_handlers.c src/scheme_backend.c
+SRC := src/bot_state.c src/bot_caps.c src/bot_runtime.c src/main.c src/irc_core.c src/dispatcher.c src/events.c src/runtime_adapter.c src/runtime_dispatch.c src/timers.c src/timer_handlers.c src/scheme_backend.c
 TINYSCHEME_DIR ?= vendor/tinyscheme-1.42
 .PHONY: all test test-tinyscheme clean
 all: $(BIN)
 $(BIN): $(SRC)
 	@mkdir -p build
 	$(CC) $(CFLAGS) $(SRC) -o $(BIN)
+$(TEST_BOT_STATE): tests/test_bot_state.c src/bot_state.c src/bot_state.h src/irc_core.c src/irc_core.h
+	@mkdir -p build
+	$(CC) $(CFLAGS) tests/test_bot_state.c src/bot_state.c src/irc_core.c -o $(TEST_BOT_STATE)
+$(TEST_BOT_CAPS): tests/test_bot_caps.c src/bot_caps.c src/bot_caps.h
+	@mkdir -p build
+	$(CC) $(CFLAGS) tests/test_bot_caps.c src/bot_caps.c -o $(TEST_BOT_CAPS)
+$(TEST_BOT_RUNTIME): tests/test_bot_runtime.c src/bot_runtime.c src/bot_runtime.h src/bot_state.c src/bot_caps.c
+	@mkdir -p build
+	$(CC) $(CFLAGS) tests/test_bot_runtime.c src/bot_runtime.c src/bot_state.c src/bot_caps.c -o $(TEST_BOT_RUNTIME)
 $(TEST_IRC): tests/test_irc.c src/irc_core.c src/irc_core.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_irc.c src/irc_core.c -o $(TEST_IRC)
@@ -41,13 +53,16 @@ $(TEST_RUNTIME_TIMERS): tests/test_runtime_timers.c src/runtime_adapter.c src/ti
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_runtime_timers.c src/runtime_adapter.c src/timers.c src/timer_handlers.c -o $(TEST_RUNTIME_TIMERS)
 
-test: $(BIN) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TEST_RUNTIME_DISPATCH)
+test: $(BIN) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TEST_RUNTIME_DISPATCH) $(TEST_BOT_STATE) $(TEST_BOT_CAPS) $(TEST_BOT_RUNTIME)
 	@./$(BIN) | grep -q "LiCs M0"
 	@./$(TEST_IRC)
 	@./$(TEST_DISPATCHER)
 	@./$(TEST_EVENTS)
 	@./$(TEST_RUNTIME)
 	@./$(TEST_RUNTIME_DISPATCH)
+	@./$(TEST_BOT_STATE)
+	@./$(TEST_BOT_CAPS)
+	@./$(TEST_BOT_RUNTIME)
 	@./$(TEST_TIMERS)
 	@./$(TEST_TIMER_HANDLERS)
 	@./$(TEST_RUNTIME_TIMERS)
