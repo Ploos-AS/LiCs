@@ -29,3 +29,15 @@ The C timer registry is language-neutral; Scheme only supplies the callback bind
 ## Contract rule
 
 Future language features should add a deterministic test at the language-binding layer and retain the same runtime semantics.
+
+
+## Command and event context
+
+The common contract exposes the same IRC context to every language binding:
+
+- command: command name, sender nick, target, and original message text
+- event: event name, sender nick, target, and event text/payload
+
+The exact call syntax remains language-native. Bindings must not invent different semantics for these fields. A handler may ignore fields it does not need.
+
+The runtime keeps the parsed `irc_event` as the canonical source of truth; language adapters translate that context without changing its meaning.
