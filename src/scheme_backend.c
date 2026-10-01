@@ -53,12 +53,12 @@ void scheme_backend_shutdown(void){if(bot_rt)bot_runtime_destroy(bot_rt);bot_rt=
 int scheme_backend_eval(const char *expr){if(!sc||!expr)return -1;return scheme_load_string(sc,expr);}
 int scheme_backend_command(const char *symbol,const irc_event *event,char *reply,size_t rs){char expr[256];int rc;size_t i;if(!sc||!symbol||!event||!reply||!rs)return 0;active_event=*event;active_event_valid=1;active_reply=reply;active_reply_size=rs;reply[0]='\0';for(i=0;i<32;i++if(command_names[i][0]&&strcmp(command_names[i],symbol)==0){snprintf(expr,sizeof(expr),"(%s \\"%s\\")",command_handlers[i],event->nick);rc=scheme_load_string(sc,expr);active_reply=NULL;active_reply_size=0;active_event_valid=0;return rc==0&&reply[0]!='\0';}snprintf(expr,sizeof(expr),"(on-command \\"%s\\" \\"%s\\")",symbol,event->nick);rc=scheme_load_string(sc,expr);active_reply=NULL;active_reply_size=0;return rc==0&&reply[0]!='\0';}
 int scheme_backend_event(const char *name,const irc_event *event,char *reply,size_t rs){char expr[512];int rc,t;if(!sc||!name||!event||!reply||!rs)return 0;active_reply=reply;active_reply_size=rs;reply[0]='\\0';t=event_type_from_name(name);if(t&&event_handlers[t][0])snprintf(expr,sizeof(expr),"(%s)",event_handlers[t]);else snprintf(expr,sizeof(expr),"(on-event \\"%s\\" \\"%s\\" \\"%s\\")",name,event->nick,event->target);rc=scheme_load_string(sc,expr);active_reply=NULL;active_reply_size=0;return rc==0&&reply[0]!='\\0';}
+int scheme_backend_grant_capability(const char *cap){return bot_rt&&cap&&bot_runtime_grant(bot_rt,cap);}
 #else
 void scheme_backend_set_output_sink(const irc_output_sink *sink){(void)sink;}
 int scheme_backend_init(void){return -1;} void scheme_backend_shutdown(void){}
 int scheme_backend_eval(const char *expr){(void)expr;return -1;}
 int scheme_backend_command(const char *s,const irc_event *e,char *r,size_t n){(void)s;(void)e;(void)r;(void)n;return 0;}
 int scheme_backend_event(const char *s,const irc_event *e,char *r,size_t n){(void)s;(void)e;(void)r;(void)n;return 0;}
-#endif
-
 int scheme_backend_grant_capability(const char *cap){return bot_rt&&cap&&bot_runtime_grant(bot_rt,cap);}
+
