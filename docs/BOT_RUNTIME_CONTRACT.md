@@ -41,3 +41,21 @@ The common contract exposes the same IRC context to every language binding:
 The exact call syntax remains language-native. Bindings must not invent different semantics for these fields. A handler may ignore fields it does not need.
 
 The runtime keeps the parsed `irc_event` as the canonical source of truth; language adapters translate that context without changing its meaning.
+
+
+## Context access
+
+M1 command/event handlers receive a canonical IRC context. Bindings expose these fields using language-native conventions:
+
+| Field | Meaning |
+|---|---|
+| command | registered command without the leading `!` |
+| event | normalized event name |
+| nick | sender nickname |
+| target | channel or recipient |
+| text | original message/event text |
+| token | protocol token when present |
+
+A binding may expose the context as arguments or as a read-only context object, but the values must retain these meanings. The leading `!` is transport syntax and is not part of the registered command name.
+
+Command arguments are derived from the original message text after the command token. They are not silently discarded by the runtime.
