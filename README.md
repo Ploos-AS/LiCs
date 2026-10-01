@@ -2,6 +2,16 @@
 
 LiCs is a C-based IRC bot with an embedded Lisp/Scheme scripting environment.
 
+## M1 status
+
+The standalone runtime now has a qualified language-neutral contract for IRC commands/events and deterministic timers. See docs/BOT_RUNTIME_CONTRACT.md.
+
+- IRC command/event dispatch: qualified
+- Timer registry and named handlers: qualified
+- Scheme timer bindings: qualified
+- AFTER / EVERY / CANCEL semantics: qualified
+- CI regression coverage: enabled
+
 ## M0 goals
 
 - Small, portable C IRC core
