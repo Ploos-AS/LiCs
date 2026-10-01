@@ -32,7 +32,7 @@ int scheme_backend_init(void){memset(timer_contexts,0,sizeof(timer_contexts));me
 void scheme_backend_shutdown(void){if(sc)scheme_deinit(sc);sc=NULL;}
 int scheme_backend_eval(const char *expr){if(!sc||!expr)return -1;return scheme_load_string(sc,expr);}
 int scheme_backend_command(const char *symbol,const irc_event *event,char *reply,size_t rs){char expr[256];int rc;if(!sc||!symbol||!event||!reply||!rs)return 0;active_reply=reply;active_reply_size=rs;reply[0]='\\0';snprintf(expr,sizeof(expr),"(on-command \"%s\" \"%s\")",symbol,event->nick);rc=scheme_load_string(sc,expr);active_reply=NULL;active_reply_size=0;return rc==0&&reply[0]!='\\0';}
-int scheme_backend_event(const char *name,const irc_event *event,char *reply,size_t rs){char expr[512];int rc;if(!sc||!name||!event||!reply||!rs)return 0;active_reply=reply;active_reply_size=rs;reply[0]='\\0';snprintf(expr,sizeof(expr),"(on-event \"%s\" \"%s\" \"%s\")",name,event->nick,event->target);rc=scheme_load_string(sc,expr);active_reply=NULL;active_reply_size=0;return rc==0&&reply[0]!='\\0';}
+int scheme_backend_event(const char *name,const irc_event *event,char *reply,size_t rs){char expr[512];int rc,t;if(!sc||!name||!event||!reply||!rs)return 0;active_reply=reply;active_reply_size=rs;reply[0]='\\0';t=event_type_from_name(name);if(t&&event_handlers[t][0])snprintf(expr,sizeof(expr),"(%s)",event_handlers[t]);else snprintf(expr,sizeof(expr),"(on-event \\"%s\\" \\"%s\\" \\"%s\\")",name,event->nick,event->target);rc=scheme_load_string(sc,expr);active_reply=NULL;active_reply_size=0;return rc==0&&reply[0]!='\\0';}
 #else
 void scheme_backend_set_output_sink(const irc_output_sink *sink){(void)sink;}
 int scheme_backend_init(void){return -1;} void scheme_backend_shutdown(void){}
