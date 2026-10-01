@@ -14,6 +14,6 @@ size_t bot_state_count(const bot_state *s);
 int bot_state_foreach(const bot_state *s,bot_state_iter_fn fn,void *ctx);
 int bot_state_scope_user(const char *nick,char *out,size_t out_size);
 int bot_state_scope_channel(const char *channel,char *out,size_t out_size);
-int bot_state_scope_event_user(const void *event,char *out,size_t out_size);
-int bot_state_scope_event_target(const void *event,char *out,size_t out_size);
+int bot_state_scope_event_user(const irc_event *event,char *out,size_t out_size);
+int bot_state_scope_event_target(const irc_event *event,char *out,size_t out_size);
 #endif
