@@ -3,7 +3,7 @@
 #include "bot_state.h"
 #include "bot_caps.h"
 #include "bot_state_backend.h"
-typedef struct bot_runtime { bot_state *state; bot_caps *caps; } bot_runtime;
+typedef struct bot_runtime { bot_state *state; bot_caps *caps; bot_state_backend state_backend; void *state_backend_ctx; int state_backend_attached; } bot_runtime;
 bot_runtime *bot_runtime_create(void);
 void bot_runtime_destroy(bot_runtime *r);
 int bot_runtime_grant(bot_runtime *r,const char *cap);
