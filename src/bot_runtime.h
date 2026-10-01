@@ -12,4 +12,5 @@ int bot_runtime_has(const bot_runtime *r,const char *cap);
 int bot_runtime_attach_state_backend(bot_runtime *r,const bot_state_backend *backend,void *ctx);
 int bot_runtime_load_state_file(bot_runtime *r,const char *path);
 int bot_runtime_save_state_file(const bot_runtime *r,const char *path);
+int bot_runtime_attach_file_state(bot_runtime *r,const char *path);
 #endif
