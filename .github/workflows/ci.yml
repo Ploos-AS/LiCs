@@ -5,6 +5,23 @@ on:
   pull_request:
 
 jobs:
+  standalone-contract:
+    runs-on: ubuntu-latest
+    env:
+      LICS_PBMP_SOCKET: ""
+      LICS_BOTWEB_URL: ""
+      LICS_BOTAI_URL: ""
+      LICS_BOTLOGIC_URL: ""
+    steps:
+      - uses: actions/checkout@v4
+      - name: Qualify standalone core with all integrations disabled
+        run: |
+          test -z "$LICS_PBMP_SOCKET"
+          test -z "$LICS_BOTWEB_URL"
+          test -z "$LICS_BOTAI_URL"
+          test -z "$LICS_BOTLOGIC_URL"
+          make test
+
   core:
     runs-on: ubuntu-latest
     steps:
