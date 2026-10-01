@@ -1,3 +1,4 @@
+/* M2.3 capability enforcement: new runtimes deny IRC output until host grants it. */
 #include "../src/bot_runtime.h"
 #include <assert.h>
-int main(void){bot_runtime*r=bot_runtime_create();assert(r);assert(!bot_runtime_has(r,"state.read"));assert(bot_runtime_grant(r,"state.read"));assert(bot_runtime_has(r,"state.read"));assert(bot_runtime_revoke(r,"state.read"));assert(!bot_runtime_has(r,"state.read"));bot_runtime_destroy(r);return 0;}
+int main(void){bot_runtime*r=bot_runtime_create();assert(r);assert(!bot_runtime_has(r,"irc.say"));assert(!bot_runtime_has(r,"irc.notice"));assert(bot_runtime_grant(r,"irc.say"));assert(bot_runtime_has(r,"irc.say"));assert(!bot_runtime_has(r,"irc.notice"));assert(bot_runtime_grant(r,"irc.notice"));assert(bot_runtime_has(r,"irc.notice"));bot_runtime_destroy(r);return 0;}
