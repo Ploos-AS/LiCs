@@ -83,3 +83,8 @@ The runtime owns IRC formatting, escaping, connection state, and transmission. S
 ## M2.1 State
 
 The runtime provides a language-neutral in-memory state store keyed by `scope + key`. State is bot-owned runtime state; persistence is deliberately outside M2.1. Missing keys return no value, setting an existing key replaces its value, and scopes are opaque strings interpreted by the host/bot policy.
+
+
+## M2.3 Runtime policy
+
+A bot runtime owns exactly one state store and one capability store. Capability policy is default-deny: a newly created runtime has no capabilities. Host/PBMP policy explicitly grants capabilities. Language bindings must not maintain independent policy stores.
