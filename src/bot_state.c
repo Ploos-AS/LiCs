@@ -15,3 +15,6 @@ size_t bot_state_count(const bot_state *s){return s?s->count:0;}
 
 int bot_state_scope_user(const char *nick,char *out,size_t n){int m;if(!nick||!out||!n)return 0;m=snprintf(out,n,"user:%s",nick);return m>=0&&(size_t)m<n;}
 int bot_state_scope_channel(const char *channel,char *out,size_t n){int m;if(!channel||!out||!n)return 0;m=snprintf(out,n,"channel:%s",channel);return m>=0&&(size_t)m<n;}
+
+int bot_state_scope_event_user(const irc_event *e,char *o,size_t n){return e?bot_state_scope_user(e->nick,o,n):0;}
+int bot_state_scope_event_target(const irc_event *e,char *o,size_t n){if(!e)return 0; if(e->target[0]=='#'||e->target[0]=='&'||e->target[0]=='+'||e->target[0]=='!') return bot_state_scope_channel(e->target,o,n); return bot_state_scope_user(e->nick,o,n);}
