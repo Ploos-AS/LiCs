@@ -20,6 +20,7 @@ The standalone runtime now has a qualified language-neutral contract for IRC com
 - PBMP integration boundary defined from the start
 - Hooks for BotWeb and BotAI
 - Standalone-first operation
+- Standalone qualification with PBMP, BotWeb, BotAI and BotLogic disabled
 - Deterministic tests for parser, dispatch and script bindings
 
 ## Initial architecture
@@ -62,8 +63,11 @@ The first scripting API should expose a deliberately small set of primitives:
 2. The Lisp environment must be useful, not decorative.
 3. Scripts must not be able to crash the IRC core.
 4. PBMP integration is optional at runtime, but first-class in the architecture.
-5. BotWeb and BotAI remain optional components.
+5. BotWeb, BotAI and BotLogic remain optional components.
 6. No malware or offensive payloads are stored in the repository.
+
+
+Standalone qualification requires the bot to build and pass its core test suite with PBMP, BotWeb, BotAI and BotLogic disabled. None of these integrations may become a required build/runtime dependency.
 
 ## License
 
