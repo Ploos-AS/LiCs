@@ -10,3 +10,5 @@ int scheme_backend_command(const char *symbol,const irc_event *event,char *reply
 int scheme_backend_event(const char *name,const irc_event *event,char *reply,size_t reply_size);
 int scheme_backend_eval(const char *expr);
 #endif
+
+int scheme_backend_grant_capability(const char *cap);
