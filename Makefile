@@ -8,6 +8,7 @@ TEST_RUNTIME := build/test_runtime
 TEST_BOT_STATE := build/test_bot_state
 TEST_BOT_CAPS := build/test_bot_caps
 TEST_BOT_RUNTIME := build/test_bot_runtime
+TEST_BOT_STATE_BACKEND := build/test_bot_state_backend
 TEST_RUNTIME_DISPATCH := build/test_runtime_dispatch
 TEST_TIMERS := build/test_timers
 TEST_TIMER_HANDLERS := build/test_timer_handlers
@@ -53,7 +54,7 @@ $(TEST_RUNTIME_TIMERS): tests/test_runtime_timers.c src/runtime_adapter.c src/ti
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_runtime_timers.c src/runtime_adapter.c src/timers.c src/timer_handlers.c -o $(TEST_RUNTIME_TIMERS)
 
-test: $(BIN) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TEST_RUNTIME_DISPATCH) $(TEST_BOT_STATE) $(TEST_BOT_CAPS) $(TEST_BOT_RUNTIME)
+test: $(BIN) $(TEST_BOT_STATE_BACKEND) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TEST_RUNTIME_DISPATCH) $(TEST_BOT_STATE) $(TEST_BOT_CAPS) $(TEST_BOT_RUNTIME)
 	@./$(BIN) | grep -q "LiCs M0"
 	@./$(TEST_IRC)
 	@./$(TEST_DISPATCHER)
@@ -63,6 +64,7 @@ test: $(BIN) $(TEST_IRC) $(TEST_DISPATCHER) $(TEST_EVENTS) $(TEST_RUNTIME) $(TES
 	@./$(TEST_BOT_STATE)
 	@./$(TEST_BOT_CAPS)
 	@./$(TEST_BOT_RUNTIME)
+	@./$(TEST_BOT_STATE_BACKEND)
 	@./$(TEST_TIMERS)
 	@./$(TEST_TIMER_HANDLERS)
 	@./$(TEST_RUNTIME_TIMERS)
@@ -76,3 +78,7 @@ test-tinyscheme:
 	@echo "LiCs TinyScheme IRC VM test: PASS"
 clean:
 	rm -rf build
+
+$(TEST_BOT_STATE_BACKEND): tests/test_bot_state_backend.c src/bot_state_backend.c src/bot_state.c src/bot_state.h src/bot_state_backend.h
+	@mkdir -p build
+	$(CC) $(CFLAGS) tests/test_bot_state_backend.c src/bot_state.c -o $(TEST_BOT_STATE_BACKEND)
