@@ -1,6 +1,7 @@
 #ifndef BOT_STATE_H
 #define BOT_STATE_H
 #include <stddef.h>
+#include "irc_core.h"
 typedef struct bot_state bot_state;
 bot_state *bot_state_create(void);
 void bot_state_destroy(bot_state *s);
