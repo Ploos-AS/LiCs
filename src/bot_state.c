@@ -20,3 +20,5 @@ int bot_state_scope_channel(const char *channel,char *out,size_t n){int m;if(!ch
 
 int bot_state_scope_event_user(const irc_event *e,char *o,size_t n){return e?bot_state_scope_user(e->nick,o,n):0;}
 int bot_state_scope_event_target(const irc_event *e,char *o,size_t n){if(!e)return 0; if(e->target[0]=='#'||e->target[0]=='&'||e->target[0]=='+'||e->target[0]=='!') return bot_state_scope_channel(e->target,o,n); return bot_state_scope_user(e->nick,o,n);}
+
+int bot_state_foreach(const bot_state*s,bot_state_iter_fn fn,void*ctx){bot_state_entry*e;if(!s||!fn)return 0;for(e=s->head;e;e=e->next)if(!fn(e->scope,e->key,e->value,ctx))return 0;return 1;}
