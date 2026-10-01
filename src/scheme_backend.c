@@ -60,3 +60,5 @@ int scheme_backend_eval(const char *expr){(void)expr;return -1;}
 int scheme_backend_command(const char *s,const irc_event *e,char *r,size_t n){(void)s;(void)e;(void)r;(void)n;return 0;}
 int scheme_backend_event(const char *s,const irc_event *e,char *r,size_t n){(void)s;(void)e;(void)r;(void)n;return 0;}
 #endif
+
+int scheme_backend_grant_capability(const char *cap){return bot_rt&&cap&&bot_runtime_grant(bot_rt,cap);}
