@@ -17,5 +17,9 @@ int main(void){
  if(irc_parse_line(":alice!u@h PRIVMSG #ploos :!hello\r\n",&e)!=1) return 9;
  if(!lics_dispatch_runtime(&e,reply,sizeof(reply))) return 10;
  if(strcmp(reply,"Hello from LiCs")!=0) return 11;
- lics_runtime_shutdown(); puts("LiCs Scheme timer integration: PASS"); return 0;
+ if(scheme_backend_eval("(event-on \"join\" \"welcome\")")!=0) return 12;
+ if(scheme_backend_eval("(define (welcome) (irc-reply \"Registered JOIN\"))")!=0) return 13;
+ memset(&e,0,sizeof(e)); e.type=IRC_EVENT_JOIN; snprintf(e.nick,sizeof(e.nick),"alice"); snprintf(e.target,sizeof(e.target),"#ploos");
+ memset(reply,0,sizeof(reply)); if(!lics_dispatch_event_runtime(&e,reply,sizeof(reply))) return 14; if(strcmp(reply,"Registered JOIN")!=0) return 15;
+ lics_runtime_shutdown(); puts("LiCs Scheme timer/event integration: PASS"); return 0;
 }
