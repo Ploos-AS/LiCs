@@ -1,6 +1,6 @@
 #include "bot_state.h"
 #include <stdlib.h>
-#include <string.h>
+#include <string.h>\n#include <stdio.h>
 typedef struct bot_state_entry{char *scope;char *key;char *value;struct bot_state_entry *next;} bot_state_entry;
 struct bot_state{bot_state_entry *head;size_t count;};
 static char *dupstr(const char *s){size_t n;if(!s)return NULL;n=strlen(s)+1;char *p=(char*)malloc(n);if(p)memcpy(p,s,n);return p;}
@@ -12,3 +12,6 @@ const char *bot_state_get(const bot_state *s,const char *scope,const char *key){
 int bot_state_delete(bot_state *s,const char *scope,const char *key){bot_state_entry **p;if(!s||!scope||!key)return 0;for(p=&s->head;*p;p=&(*p)->next)if(strcmp((*p)->scope,scope)==0&&strcmp((*p)->key,key)==0){bot_state_entry *e=*p;*p=e->next;free(e->scope);free(e->key);free(e->value);free(e);s->count--;return 1;}return 0;}
 void bot_state_clear(bot_state *s){bot_state_entry *e,*n;if(!s)return;for(e=s->head;e;e=n){n=e->next;free(e->scope);free(e->key);free(e->value);free(e);}s->head=NULL;s->count=0;}
 size_t bot_state_count(const bot_state *s){return s?s->count:0;}
+
+int bot_state_scope_user(const char *nick,char *out,size_t n){int m;if(!nick||!out||!n)return 0;m=snprintf(out,n,"user:%s",nick);return m>=0&&(size_t)m<n;}
+int bot_state_scope_channel(const char *channel,char *out,size_t n){int m;if(!channel||!out||!n)return 0;m=snprintf(out,n,"channel:%s",channel);return m>=0&&(size_t)m<n;}
