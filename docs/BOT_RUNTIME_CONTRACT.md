@@ -4,6 +4,12 @@ LiCs implements the common standalone bot-runtime contract using Scheme-native b
 
 ## M1 qualification
 
+**M1 status: COMPLETE — runtime contract frozen.**
+
+The qualification covers parsing, generic command dispatch, event registration, deterministic timers, command/event context, semantic output (`SAY`, `NOTICE`, `REPLY`), and CI coverage. New M2 features must not change these semantics without an explicit contract revision.
+
+## M1 qualification
+
 | Capability | Contract | LiCs |
 |---|---|---|
 | IRC commands | C dispatcher -> language callback | PASS |
