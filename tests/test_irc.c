@@ -1,4 +1,5 @@
 #include "../src/irc_core.h"
+#include "../src/irc_output.h"
 #include <assert.h>
 #include <string.h>
 int main(void){
@@ -11,5 +12,6 @@ int main(void){
  assert(irc_parse_line(":alice!u@host NICK :ally\r\n",&e)==1); assert(e.type==IRC_EVENT_NICK); assert(strcmp(e.text,"ally")==0);
  assert(irc_parse_line(":alice!u@host QUIT :gone\r\n",&e)==1); assert(e.type==IRC_EVENT_QUIT); assert(strcmp(e.text,"gone")==0);
  assert(irc_parse_line(":server 001 bot :welcome\r\n",&e)==0);
+ assert(irc_format_privmsg("#ploos","hello",out,sizeof(out))>0); assert(strcmp(out,"PRIVMSG #ploos :hello\r\n")==0); assert(irc_format_notice("#ploos","hello",out,sizeof(out))>0); assert(strcmp(out,"NOTICE #ploos :hello\r\n")==0);
  return 0;
 }
