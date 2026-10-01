@@ -59,3 +59,16 @@ M1 command/event handlers receive a canonical IRC context. Bindings expose these
 A binding may expose the context as arguments or as a read-only context object, but the values must retain these meanings. The leading `!` is transport syntax and is not part of the registered command name.
 
 Command arguments are derived from the original message text after the command token. They are not silently discarded by the runtime.
+
+
+## IRC output contract
+
+Language bindings expose a minimal, language-native output surface:
+
+| Operation | Meaning |
+|---|---|
+| SAY | send a PRIVMSG to a target/channel |
+| NOTICE | send an IRC NOTICE to a target |
+| REPLY | reply to the current command/event target |
+
+The runtime owns IRC formatting, escaping, connection state, and transmission. Scripts provide semantic arguments only. A failed transmission is reported by the binding; scripts must not construct raw IRC protocol lines.
