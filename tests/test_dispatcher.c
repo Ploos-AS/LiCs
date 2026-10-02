@@ -21,7 +21,7 @@ int main(void) {
     if (strcmp(reply, "Hello from LiCs") != 0) return 4;
 
     if (irc_parse_line(":alice!u@h PRIVMSG #ploos :!unknown\r\n", &event) != 1) return 5;
-    if (dispatch_privmsg(&event, bindings, 1, reply, sizeof(reply)) != 0) return 6;
+    if (dispatch_privmsg(&event, &registry, reply, sizeof(reply)) != 0) return 6;
 
     puts("dispatcher: PASS");
     return 0;
