@@ -46,7 +46,7 @@ $(TEST_RUNTIME): tests/test_runtime.c src/runtime_adapter.c src/scheme_backend.c
 	$(CC) $(CFLAGS) tests/test_runtime.c src/runtime_adapter.c src/scheme_backend.c src/events.c src/timers.c src/timer_handlers.c src/irc_output.c src/irc_output_sink.c -o $(TEST_RUNTIME)
 $(TEST_RUNTIME_DISPATCH) $(TEST_TIMERS) $(TEST_TIMER_HANDLERS) $(TEST_RUNTIME_TIMERS): tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c
 	@mkdir -p build
-	$(CC) $(CFLAGS) tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c -o $(TEST_RUNTIME_DISPATCH)
+	$(CC) $(CFLAGS) tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c src/events.c src/timers.c src/timer_handlers.c src/irc_output.c src/irc_output_sink.c -o $(TEST_RUNTIME_DISPATCH)
 $(TEST_TIMERS): tests/test_timers.c src/timers.c src/timers.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_timers.c src/timers.c -o $(TEST_TIMERS)
