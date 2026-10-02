@@ -14,13 +14,19 @@ jobs:
       LICS_BOTLOGIC_URL: ""
     steps:
       - uses: actions/checkout@v4
-      - name: Qualify standalone core with all integrations disabled
+      - name: Fetch required TinyScheme runtime
+        run: |
+          mkdir -p vendor
+          curl -L --fail --retry 3 -o /tmp/tinyscheme-1.42.tar.gz "https://sourceforge.net/projects/tinyscheme/files/tinyscheme/tinyscheme-1.42/tinyscheme-1.42.tar.gz/download"
+          tar -xzf /tmp/tinyscheme-1.42.tar.gz -C vendor
+          test -f vendor/tinyscheme-1.42/scheme.c
+      - name: Qualify standalone bot with optional integrations disabled
         run: |
           test -z "$LICS_PBMP_SOCKET"
           test -z "$LICS_BOTWEB_URL"
           test -z "$LICS_BOTAI_URL"
           test -z "$LICS_BOTLOGIC_URL"
-          make test
+          make test-tinyscheme
 
   core:
     runs-on: ubuntu-latest
