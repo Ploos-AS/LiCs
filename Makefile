@@ -34,7 +34,7 @@ $(TEST_BOT_RUNTIME): tests/test_bot_runtime.c src/bot_runtime.c src/bot_runtime.
 	$(CC) $(CFLAGS) tests/test_bot_runtime.c src/bot_runtime.c src/bot_state.c src/bot_caps.c -o $(TEST_BOT_RUNTIME)
 $(TEST_IRC): tests/test_irc.c src/irc_core.c src/irc_core.h
 	@mkdir -p build
-	$(CC) $(CFLAGS) tests/test_irc.c src/irc_core.c -o $(TEST_IRC)
+	$(CC) $(CFLAGS) tests/test_irc.c src/irc_core.c src/irc_output.c -o $(TEST_IRC)
 $(TEST_DISPATCHER): tests/test_dispatcher.c src/irc_core.c src/dispatcher.c src/irc_core.h src/dispatcher.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_dispatcher.c src/irc_core.c src/dispatcher.c -o $(TEST_DISPATCHER)
