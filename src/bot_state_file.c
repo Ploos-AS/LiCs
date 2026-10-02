@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 typedef struct { char *path; bot_state *shadow; } file_ctx;
 static char *dupstr(const char*s){size_t n;if(!s)return NULL;n=strlen(s)+1;char*p=malloc(n);if(p)memcpy(p,s,n);return p;}
 static int fset(void*vp,const char*s,const char*k,const char*v){file_ctx*c=vp;if(!bot_state_set(c->shadow,s,k,v))return 0;return bot_state_file_save(c->path,c->shadow);}
