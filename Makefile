@@ -98,4 +98,4 @@ $(TEST_BOT_STATE_CODEC_INVALID): tests/test_bot_state_file_codec_invalid.c src/b
 
 $(TEST_BOT_RUNTIME_PERSISTENCE): tests/test_bot_runtime_persistence.c src/bot_runtime.c src/bot_runtime.h src/bot_state.c src/bot_state.h src/bot_caps.c src/bot_caps.h src/bot_state_backend.h src/bot_state_file.c src/bot_state_file.h src/bot_state_file_codec.c src/bot_state_file_codec.h src/bot_state_file_save.c src/bot_state_file_save.h
 	@mkdir -p build
-	$(CC) $(CFLAGS) tests/test_bot_runtime_persistence.c src/bot_runtime.c src/bot_state.c src/bot_caps.c src/bot_state_backend.c src/bot_state_file.c src/bot_state_file_codec.c src/bot_state_file_save.c -o $(TEST_BOT_RUNTIME_PERSISTENCE)
+	$(CC) $(CFLAGS) tests/test_bot_runtime_persistence.c src/bot_runtime.c src/bot_state.c src/bot_caps.c src/bot_state_file.c src/bot_state_file_codec.c src/bot_state_file_save.c -o $(TEST_BOT_RUNTIME_PERSISTENCE)
