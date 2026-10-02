@@ -78,7 +78,7 @@ test: $(BIN) $(TEST_BOT_RUNTIME_PERSISTENCE) $(TEST_BOT_STATE_BACKEND) $(TEST_BO
 test-tinyscheme:
 	@test -f $(TINYSCHEME_DIR)/scheme.c || (echo "TinyScheme source missing at $(TINYSCHEME_DIR)"; exit 1)
 	@mkdir -p build
-	$(CC) $(CFLAGS) -DLICS_WITH_TINYSCHEME -DUSE_DL=0 -include sys/types.h -include $(TINYSCHEME_DIR)/scheme-private.h -I$(TINYSCHEME_DIR) tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c $(TINYSCHEME_DIR)/scheme.c -lm -o build/test_runtime_dispatch_scheme
+	$(CC) $(CFLAGS) -DLICS_WITH_TINYSCHEME -DUSE_DL=0 -include sys/types.h -include $(TINYSCHEME_DIR)/scheme-private.h -I$(TINYSCHEME_DIR) tests/test_runtime_dispatch.c src/irc_core.c src/runtime_adapter.c src/runtime_dispatch.c src/scheme_backend.c src/bot_runtime.c src/bot_state.c src/bot_caps.c src/bot_state_file.c src/bot_state_file_codec.c src/bot_state_file_save.c src/events.c src/timers.c src/timer_handlers.c src/irc_output.c src/irc_output_sink.c $(TINYSCHEME_DIR)/scheme.c -lm -o build/test_runtime_dispatch_scheme
 	@./build/test_runtime_dispatch_scheme
 	@echo "LiCs TinyScheme timer integration: PASS"
 	@echo "LiCs TinyScheme IRC VM test: PASS"
