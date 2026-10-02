@@ -67,7 +67,7 @@ The first scripting API should expose a deliberately small set of primitives:
 6. No malware or offensive payloads are stored in the repository.
 
 
-Standalone qualification requires the bot to build and pass its core test suite with PBMP, BotWeb, BotAI and BotLogic disabled. None of these integrations may become a required build/runtime dependency.
+Standalone qualification requires the complete bot, including its Lisp/Scheme runtime, to build and pass its test suite with PBMP, BotWeb, BotAI and BotLogic disabled. The language/runtime is a required part of LiCs, not an optional integration. PBMP, BotWeb, BotAI and BotLogic must remain optional build/runtime dependencies.
 
 ## License
 
