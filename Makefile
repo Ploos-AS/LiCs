@@ -31,7 +31,7 @@ $(TEST_BOT_CAPS): tests/test_bot_caps.c src/bot_caps.c src/bot_caps.h
 	$(CC) $(CFLAGS) tests/test_bot_caps.c src/bot_caps.c -o $(TEST_BOT_CAPS)
 $(TEST_BOT_RUNTIME): tests/test_bot_runtime.c src/bot_runtime.c src/bot_runtime.h src/bot_state.c src/bot_caps.c
 	@mkdir -p build
-	$(CC) $(CFLAGS) tests/test_bot_runtime.c src/bot_runtime.c src/bot_state.c src/bot_caps.c -o $(TEST_BOT_RUNTIME)
+	$(CC) $(CFLAGS) tests/test_bot_runtime.c src/bot_runtime.c src/bot_state.c src/bot_caps.c src/bot_state_file.c src/bot_state_file_codec.c src/bot_state_file_save.c -o $(TEST_BOT_RUNTIME)
 $(TEST_IRC): tests/test_irc.c src/irc_core.c src/irc_core.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) tests/test_irc.c src/irc_core.c src/irc_output.c -o $(TEST_IRC)
